@@ -14,15 +14,24 @@ namespace dwiz
     {
         Q_OBJECT
     public:
-        ClientMainWindow(QWidget* f_parent = nullptr, Qt::WindowFlags f_flags = Qt::WindowFlags());
+
+        ClientMainWindow(
+                QWidget* const f_parent = nullptr,
+                Qt::WindowFlags const f_flags = Qt::WindowFlags()
+        );
         ~ClientMainWindow();
+
     signals:
+
         void closed();
+
     private:
+
         virtual void closeEvent(QCloseEvent* f_event) override;
 
         std::unique_ptr<Ui::ClientMainWindowUi> m_ui;
         std::unique_ptr<QStackedWidget> m_stackedWidget;
+
     };  // class ClientMainWindow
 }  // namespace dwiz
 
