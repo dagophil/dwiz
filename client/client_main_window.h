@@ -1,11 +1,12 @@
-#ifndef DWIZ_MAIN_WINDOW_H
-#define DWIZ_MAIN_WINDOW_H
+#ifndef DWIZ_CLIENT_MAIN_WINDOW_H
+#define DWIZ_CLIENT_MAIN_WINDOW_H
 
 #include <common/dwiz_std.h>
 #include <QMainWindow>
 #include <memory>
 
 namespace Ui { class ClientMainWindowUi; }
+class QStackedWidget;
 
 namespace dwiz
 {
@@ -19,8 +20,10 @@ namespace dwiz
         void closed();
     private:
         virtual void closeEvent(QCloseEvent* f_event) override;
+
         std::unique_ptr<Ui::ClientMainWindowUi> m_ui;
-    };
+        std::unique_ptr<QStackedWidget> m_stackedWidget;
+    };  // class ClientMainWindow
 }  // namespace dwiz
 
 #endif

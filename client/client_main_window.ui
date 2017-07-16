@@ -13,7 +13,33 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <widget class="QStackedWidget" name="stackedWidget">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>120</width>
+     <height>80</height>
+    </rect>
+   </property>
+   <widget class="dwiz::ClientLoginPage" name="loginPage"/>
+   <widget class="dwiz::ClientGamePage" name="gamePage"/>
+  </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>dwiz::ClientLoginPage</class>
+   <extends>QWidget</extends>
+   <header location="global">client/client_login_page.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>dwiz::ClientGamePage</class>
+   <extends>QWidget</extends>
+   <header location="global">client/client_game_page.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

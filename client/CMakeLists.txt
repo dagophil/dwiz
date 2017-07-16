@@ -4,6 +4,8 @@ qt5_wrap_ui(UI_HDRS
 add_executable(dwizclient
     client_main.cpp
     client_main_window.cpp
+    client_login_page.cpp
+    client_game_page.cpp
     ${UI_HDRS}
 )
 set_target_properties(dwizclient

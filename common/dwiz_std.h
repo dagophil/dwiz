@@ -1,5 +1,5 @@
-#ifndef DWIZ_STD_H
-#define DWIZ_STD_H
+#ifndef DWIZ_COMMON_STD_H
+#define DWIZ_COMMON_STD_H
 
 
 
