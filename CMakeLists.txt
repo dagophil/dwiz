@@ -11,6 +11,12 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 # Make the prefix path variable visible in cmake gui.
 set(CMAKE_PREFIX_PATH "" CACHE PATH "CMake prefix path")
 
+# Make the debug variable visible in cmake gui.
+set(DWIZ_DEBUG OFF CACHE BOOL "Insert debug code.")
+if(DWIZ_DEBUG)
+    add_definitions(-DDWIZ_DEBUG)
+endif()
+
 # Set the output directory.
 set(DWIZ_OUTPUT_DIRECTORY  "${CMAKE_BINARY_DIR}/dist")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${DWIZ_OUTPUT_DIRECTORY}")

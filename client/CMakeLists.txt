@@ -8,6 +8,7 @@ add_executable(dwizclient
     client_login_page.cpp
     client_game_page.cpp
     ${UI_HDRS}
+    $<TARGET_OBJECTS:libLogging>
 )
 set_target_properties(dwizclient
     PROPERTIES

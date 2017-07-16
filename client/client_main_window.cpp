@@ -12,8 +12,7 @@ namespace dwiz
             Qt::WindowFlags const f_flags
     )   :
         QMainWindow(f_parent, f_flags),
-        m_ui(new Ui::ClientMainWindowUi())/*,
-        m_stackedWidget(new QStackedWidget())*/
+        m_ui(new Ui::ClientMainWindowUi())
     {
         m_ui->setupUi(this);
         setCentralWidget(m_ui->stackedWidget);

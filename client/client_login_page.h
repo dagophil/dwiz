@@ -21,6 +21,8 @@ namespace dwiz
 
     private:
 
+        void tryLogin();
+
         std::unique_ptr<Ui::ClientLoginPageUi> m_ui;
 
     };  // class ClientLoginPage
