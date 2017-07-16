@@ -95,6 +95,11 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>inputHost</tabstop>
+  <tabstop>inputUsername</tabstop>
+  <tabstop>btnLogin</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
