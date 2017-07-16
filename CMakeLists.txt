@@ -18,12 +18,12 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${DWIZ_OUTPUT_DIRECTORY}")
 # Add source directory to include paths.
 include_directories(${CMAKE_SOURCE_DIR})
 
-# Find qt and copy the libs.
+# Find qt.
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Gui REQUIRED)
 find_package(Qt5Widgets REQUIRED)
 
-# Copy qt library files to the output directory of the target.
+# Function that copies qt library files to the output directory of the target.
 # Example: copy_qt_lib(main Qt5::Core)
 function(copy_qt_lib tar libname)
     add_custom_command(
@@ -35,8 +35,37 @@ function(copy_qt_lib tar libname)
     )
 endfunction()
 
+# Find googletest.
+find_package(GTest REQUIRED)
+
+# Macro that adds the given files to the list with test source files.
+# Example: add_test_files(file0.cpp file1.cpp)
+macro(add_test_files)
+    file(RELATIVE_PATH relPath "${PROJECT_SOURCE_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}")
+    foreach(srcFile ${ARGN})
+        if (relPath)
+            list(APPEND TEST_SOURCES "${relPath}/${srcFile}")
+        else()
+            list(APPEND TEST_SOURCES "${srcFile}")
+        endif()
+    endforeach()
+    if (relPath)
+        set(TEST_SOURCES ${TEST_SOURCES} PARENT_SCOPE)
+    endif()
+endmacro()
+
 # Add sub directories.
 add_subdirectory(common)
 add_subdirectory(client)
 add_subdirectory(server)
 
+# Add test executable.
+if (TEST_SOURCES)
+    add_executable(test_main ${TEST_SOURCES})
+    set_target_properties(test_main
+        PROPERTIES
+        RUNTIME_OUTPUT_DIRECTORY "${DWIZ_OUTPUT_DIRECTORY}/test"
+    )
+    target_link_libraries(test_main GTest::Main)
+    add_test(NAME test COMMAND test_main)
+endif()
