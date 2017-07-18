@@ -8,13 +8,14 @@ add_executable(dwizclient
     client_login_page.cpp
     client_game_page.cpp
     ${UI_HDRS}
-    $<TARGET_OBJECTS:libLogging>
 )
 set_target_properties(dwizclient
     PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY "${DWIZ_OUTPUT_DIRECTORY}/client"
 )
 target_link_libraries(dwizclient
+    DwizCommon
+    DwizCommonQt
     Qt5::Core
     Qt5::Gui
     Qt5::Widgets

@@ -62,6 +62,7 @@ endmacro()
 
 # Add sub directories.
 add_subdirectory(common)
+add_subdirectory(common_qt)
 add_subdirectory(client)
 add_subdirectory(server)
 

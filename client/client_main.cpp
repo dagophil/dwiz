@@ -1,7 +1,8 @@
 #include <common/dwiz_std.h>
 #include <client/client_main_window.h>
+#include <common/dwiz_assert.h>
 #include <common/log/logging.h>
-#include <QApplication>
+#include <common_qt/catch_all_application.h>
 #include <exception>
 
 int main(int argc, char* argv[])
@@ -12,24 +13,36 @@ int main(int argc, char* argv[])
     int return_code = 1;
     try
     {
-        QApplication app(argc, argv);
+        CatchAllApplication app(argc, argv);
         ClientMainWindow window;
         QObject::connect(
             &window, &ClientMainWindow::closed,
-            qApp, &QApplication::quit
+            &app, &QApplication::quit
         );
         window.show();
-        return_code = app.exec();
+        int const app_result = app.exec();
+        if (!app.hasException())
+        {
+            return_code = app_result;
+        }
+        else
+        {
+            logerr << app.getExceptionMessage() << endlog;
+        }
     }
     catch (std::exception const& ex)
     {
-        logerr << "Uncaught exception: \"" << ex.what() << "\"." << endlog;
+        logerr << "Uncaught exception: " << ex.what() << "." << endlog;
+    }
+    catch (AssertError const& ex)
+    {
+        logerr << "Assertion error: " << ex.what() << "." << endlog;
     }
     catch (...)
     {
-        logerr << "Uncaught unknown exception." << endlog;
+        logerr << "Unknown exception." << endlog;
     }
 
-    loginfo << "Application end." << endlog;
+    loginfo << "Application end, status code " << return_code << "." << endlog;
     return return_code;
 }
