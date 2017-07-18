@@ -9,6 +9,8 @@ namespace Ui { class ClientLoginPageUi; }
 
 namespace dwiz
 {
+    class LoginProtocolInterface;
+
     class ClientLoginPage : public QWidget
     {
     public:
@@ -19,11 +21,16 @@ namespace dwiz
         );
         ~ClientLoginPage();
 
+        void setLoginProtocol(
+                std::unique_ptr<LoginProtocolInterface>&& f_login_protocol
+        );
+
+        void login();
+
     private:
 
-        void tryLogin();
-
         std::unique_ptr<Ui::ClientLoginPageUi> m_ui;
+        std::unique_ptr<LoginProtocolInterface> m_login_protocol;
 
     };  // class ClientLoginPage
 }  // namespace dwiz

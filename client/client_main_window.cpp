@@ -1,9 +1,8 @@
 #include "client_main_window.h"
 #include "ui_client_main_window.h"
+#include <common/protocols/json_login_protocol.h>
+#include <common_qt/network/qt_network_connector.h>
 #include <QCloseEvent>
-#include <QLabel>
-#include <QStackedWidget>
-#include <iostream>
 
 namespace dwiz
 {
@@ -16,6 +15,10 @@ namespace dwiz
     {
         m_ui->setupUi(this);
         setCentralWidget(m_ui->stackedWidget);
+
+        auto network_connector = std::make_shared<QtNetworkConnector>();
+        auto login_protocol = std::make_unique<JsonLoginProtocol>(network_connector);
+        m_ui->loginPage->setLoginProtocol(std::move(login_protocol));
     }
 
     ClientMainWindow::~ClientMainWindow() = default;

@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.5)
 project(dwiz)
 
 set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
@@ -43,6 +44,14 @@ endfunction()
 
 # Find googletest.
 find_package(GTest REQUIRED)
+find_library(GMock_LIBRARY NAMES gmock libgmock PATHS "lib")
+if(NOT GMock_LIBRARY)
+    message(FATAL_ERROR "Could not find libgmock.")
+endif()
+find_library(GMockMain_LIBRARY NAMES gmock_main libgmock_main PATHS "lib")
+if (NOT GMockMain_LIBRARY)
+    message(FATAL_ERROR "Could not find libgmock_main.")
+endif()
 
 # Macro that adds the given files to the list with test source files.
 # Example: add_test_files(file0.cpp file1.cpp)
@@ -68,11 +77,19 @@ add_subdirectory(server)
 
 # Add test executable.
 if (TEST_SOURCES)
+    enable_testing(true)
     add_executable(test_main ${TEST_SOURCES})
     set_target_properties(test_main
         PROPERTIES
         RUNTIME_OUTPUT_DIRECTORY "${DWIZ_OUTPUT_DIRECTORY}/test"
     )
-    target_link_libraries(test_main GTest::Main)
-    add_test(NAME test COMMAND test_main)
+    target_link_libraries(test_main
+        DwizClient
+        GTest::Main
+        ${GMock_LIBRARY}
+    )
+    copy_qt_lib(test_main Qt5::Core)
+    copy_qt_lib(test_main Qt5::Gui)
+    copy_qt_lib(test_main Qt5::Widgets)
+    GTEST_ADD_TESTS(test_main "" AUTO)
 endif()
