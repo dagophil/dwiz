@@ -6,10 +6,9 @@
 
 namespace dwiz
 {
-    class QtNetworkConnector : public NetworkConnectorInterface
-    {
-
-    };  // class QtNetworkConnector
-}  // namespace dwiz
+class QtNetworkConnector : public NetworkConnectorInterface
+{
+}; // class QtNetworkConnector
+} // namespace dwiz
 
 #endif

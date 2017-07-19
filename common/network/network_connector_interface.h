@@ -5,11 +5,11 @@
 
 namespace dwiz
 {
-    class NetworkConnectorInterface
-    {
-    public:
-        virtual ~NetworkConnectorInterface() = default;
-    };
-}  // namespace dwiz
+class NetworkConnectorInterface
+{
+public:
+    virtual ~NetworkConnectorInterface() = default;
+};
+} // namespace dwiz
 
 #endif

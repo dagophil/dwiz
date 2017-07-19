@@ -7,26 +7,23 @@
 
 namespace dwiz
 {
-    class NetworkConnectorInterface;
+class NetworkConnectorInterface;
 
-    class JsonLoginProtocol : public LoginProtocolInterface
-    {
-    public:
+class JsonLoginProtocol : public LoginProtocolInterface
+{
+public:
+    JsonLoginProtocol(std::shared_ptr<NetworkConnectorInterface> const& f_networkConnector);
+    ~JsonLoginProtocol();
 
-        JsonLoginProtocol(
-                std::shared_ptr<NetworkConnectorInterface> const& f_networkConnector
-        );
-        ~JsonLoginProtocol();
+    virtual std::future<LoginResult> login(
+        std::string const& f_host_name,
+        std::string const& f_user_name,
+        std::string const& f_password) override;
 
-        virtual std::future<LoginResult> login(
-                const std::string& f_host_name,
-                const std::string& f_user_name,
-                const std::string& f_password
-                ) override;
+private:
+    std::shared_ptr<NetworkConnectorInterface> m_networkConnector;
 
-    private:
-        std::shared_ptr<NetworkConnectorInterface> m_networkConnector;
-    };
-}  // namespace dwiz
+}; // class JsonLoginProtocol
+} // namespace dwiz
 
 #endif

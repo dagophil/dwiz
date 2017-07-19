@@ -6,23 +6,21 @@
 
 namespace dwiz
 {
+extern std::ostream logerr;
+extern std::ostream logwarn;
+extern std::ostream loginfo;
 
-    extern std::ostream logerr;
-    extern std::ostream logwarn;
-    extern std::ostream loginfo;
+// Hide logdebug in namespace to encourage use of LOGDEBUG macro.
+namespace detail
+{
+extern std::ostream logdebug;
+} // namespace detail
 
-    // Hide logdebug in namespace to encourage use of LOGDEBUG macro.
-    namespace detail
-    {
-        extern std::ostream logdebug;
-    }  // namespace detail
+extern struct EndLog
+{
+} endlog;
 
-    extern struct EndLog {} endlog;
-
-    std::ostream& operator<<(
-            std::ostream& f_stream,
-            EndLog const& f_endlog
-    );
+std::ostream& operator<<(std::ostream& f_stream, EndLog const& f_endlog);
 
 #ifdef DWIZ_DEBUG
 #define LOGDEBUG(msg) detail::logdebug << msg
@@ -30,6 +28,6 @@ namespace dwiz
 #define LOGDEBUG(msg)
 #endif
 
-}  // namespace dwiz
+} // namespace dwiz
 
 #endif

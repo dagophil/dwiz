@@ -3,18 +3,16 @@
 
 namespace dwiz
 {
-    OStreamLogger::OStreamLogger(
-            std::ostream& f_stream
-    )   :
-        m_stream(f_stream)
-    {
-    }
+OStreamLogger::OStreamLogger(std::ostream& f_stream)
+    : m_stream(f_stream)
+{
+}
 
-    int OStreamLogger::sync()
-    {
-        m_stream << str();
-        m_stream.flush();
-        str("");
-        return std::stringbuf::sync();
-    }
-}  // namespace dwiz
+int OStreamLogger::sync()
+{
+    m_stream << str();
+    m_stream.flush();
+    str("");
+    return std::stringbuf::sync();
+}
+} // namespace dwiz

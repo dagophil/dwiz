@@ -5,34 +5,32 @@
 #include <QMainWindow>
 #include <memory>
 
-namespace Ui { class ClientMainWindowUi; }
+namespace Ui
+{
+class ClientMainWindowUi;
+}
 class QStackedWidget;
 
 namespace dwiz
 {
-    class ClientMainWindow : public QMainWindow
-    {
-        Q_OBJECT
-    public:
+class ClientMainWindow : public QMainWindow
+{
+    Q_OBJECT
+public:
+    ClientMainWindow(
+        QWidget* const f_parent = nullptr, Qt::WindowFlags const f_flags = Qt::WindowFlags());
+    ~ClientMainWindow();
 
-        ClientMainWindow(
-                QWidget* const f_parent = nullptr,
-                Qt::WindowFlags const f_flags = Qt::WindowFlags()
-        );
-        ~ClientMainWindow();
+signals:
+    void closed();
 
-    signals:
+private:
+    virtual void closeEvent(QCloseEvent* f_event) override;
 
-        void closed();
+    std::unique_ptr<Ui::ClientMainWindowUi> m_ui;
+    std::unique_ptr<QStackedWidget> m_stackedWidget;
 
-    private:
-
-        virtual void closeEvent(QCloseEvent* f_event) override;
-
-        std::unique_ptr<Ui::ClientMainWindowUi> m_ui;
-        std::unique_ptr<QStackedWidget> m_stackedWidget;
-
-    };  // class ClientMainWindow
-}  // namespace dwiz
+}; // class ClientMainWindow
+} // namespace dwiz
 
 #endif

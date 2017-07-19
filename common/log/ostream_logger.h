@@ -6,19 +6,17 @@
 
 namespace dwiz
 {
-    class OStreamLogger : public std::stringbuf
-    {
-    public:
+class OStreamLogger : public std::stringbuf
+{
+public:
+    OStreamLogger(std::ostream& f_stream);
 
-        OStreamLogger(std::ostream& f_stream);
+private:
+    virtual int sync() override;
 
-    private:
+    std::ostream& m_stream;
 
-        virtual int sync() override;
-
-        std::ostream& m_stream;
-
-    };  // OStreamLogger
-}  // namespace dwiz
+}; // OStreamLogger
+} // namespace dwiz
 
 #endif

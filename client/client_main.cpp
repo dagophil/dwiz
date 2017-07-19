@@ -15,10 +15,7 @@ int main(int argc, char* argv[])
     {
         CatchAllApplication app(argc, argv);
         ClientMainWindow window;
-        QObject::connect(
-            &window, &ClientMainWindow::closed,
-            &app, &QApplication::quit
-        );
+        QObject::connect(&window, &ClientMainWindow::closed, &app, &QApplication::quit);
         window.show();
         int const app_result = app.exec();
         if (!app.hasException())
@@ -42,7 +39,6 @@ int main(int argc, char* argv[])
     {
         logerr << "Unknown exception." << endlog;
     }
-
     loginfo << "Application end, status code " << return_code << "." << endlog;
     return return_code;
 }

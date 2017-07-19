@@ -6,19 +6,18 @@
 
 namespace dwiz
 {
-    class CatchAllApplication : public QApplication
-    {
-    public:
-        using QApplication::QApplication;
-        bool hasException() const;
-        std::string const& getExceptionMessage() const;
-    private:
-        virtual bool notify(
-                QObject* f_obj,
-                QEvent* f_event
-        ) override;
-        std::string m_exceptionMessage;
-    };  // CatchAllApplication
-}  // namespace dwiz
+class CatchAllApplication : public QApplication
+{
+public:
+    using QApplication::QApplication;
+    bool hasException() const;
+    std::string const& getExceptionMessage() const;
+
+private:
+    virtual bool notify(QObject* f_obj, QEvent* f_event) override;
+    std::string m_exceptionMessage;
+
+}; // CatchAllApplication
+} // namespace dwiz
 
 #endif

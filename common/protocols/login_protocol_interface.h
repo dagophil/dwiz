@@ -7,19 +7,19 @@
 
 namespace dwiz
 {
-    class LoginResult
-    {};
+class LoginResult
+{
+};
 
-    class LoginProtocolInterface
-    {
-    public:
-        virtual ~LoginProtocolInterface() = default;
-        virtual std::future<LoginResult> login(
-                std::string const& f_host_name,
-                std::string const& f_user_name,
-                std::string const& f_password
-        ) = 0;
-    };  // class LoginProtocolInterface
-}  // namespace dwiz
+class LoginProtocolInterface
+{
+public:
+    virtual ~LoginProtocolInterface() = default;
+    virtual std::future<LoginResult> login(
+        std::string const& f_host_name,
+        std::string const& f_user_name,
+        std::string const& f_password) = 0;
+}; // class LoginProtocolInterface
+} // namespace dwiz
 
 #endif

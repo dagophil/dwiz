@@ -6,10 +6,9 @@
 
 namespace dwiz
 {
-    class ClientGamePage : public QWidget
-    {
-
-    };  // class ClientGamePage
-}  // namespace dwiz
+class ClientGamePage : public QWidget
+{
+}; // class ClientGamePage
+} // namespace dwiz
 
 #endif

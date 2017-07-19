@@ -11,9 +11,8 @@ class MockLoginProtocol : public LoginProtocolInterface
 public:
     virtual ~MockLoginProtocol() = default;
     MOCK_METHOD3(
-            login,
-            std::future<LoginResult>(std::string const&, std::string const&, std::string const&)
-    );
+        login,
+        std::future<LoginResult>(std::string const&, std::string const&, std::string const&));
 };
 
 TEST(ClientLoginPage, TestLoginCallsProtocol)
