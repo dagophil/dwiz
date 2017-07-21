@@ -1,5 +1,5 @@
-#ifndef DWIZ_COMMON_PROTOCOLS_JSON_LOGIN_PROTOCOL_H
-#define DWIZ_COMMON_PROTOCOLS_JSON_LOGIN_PROTOCOL_H
+#ifndef DWIZ_COMMON_PROTOCOLS_V0_JSON_LOGIN_PROTOCOL_H
+#define DWIZ_COMMON_PROTOCOLS_V0_JSON_LOGIN_PROTOCOL_H
 
 #include <common/dwiz_std.h>
 #include <common/protocols/login_protocol_interface.h>
@@ -9,11 +9,11 @@ namespace dwiz
 {
 class NetworkConnectorInterface;
 
-class JsonLoginProtocol : public LoginProtocolInterface
+class JsonLoginProtocolV0 : public LoginProtocolInterface
 {
 public:
-    JsonLoginProtocol(std::shared_ptr<NetworkConnectorInterface> const& f_networkConnector);
-    ~JsonLoginProtocol();
+    JsonLoginProtocolV0(std::shared_ptr<NetworkConnectorInterface> const& f_networkConnector);
+    ~JsonLoginProtocolV0();
 
     virtual std::future<LoginResult> login(
         std::string const& f_host_name,

@@ -22,7 +22,7 @@ public:
 
     ~ClientLoginPage();
 
-    void setLoginProtocol(std::unique_ptr<LoginProtocolInterface>&& f_login_protocol);
+    void setLoginProtocol(std::unique_ptr<LoginProtocolInterface> f_login_protocol);
 
     void login();
 

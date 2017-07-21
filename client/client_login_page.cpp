@@ -16,7 +16,7 @@ ClientLoginPage::ClientLoginPage(QWidget* const f_parent, Qt::WindowFlags const 
 
 ClientLoginPage::~ClientLoginPage() = default;
 
-void ClientLoginPage::setLoginProtocol(std::unique_ptr<LoginProtocolInterface>&& f_login_protocol)
+void ClientLoginPage::setLoginProtocol(std::unique_ptr<LoginProtocolInterface> f_login_protocol)
 {
     m_login_protocol = std::move(f_login_protocol);
 }

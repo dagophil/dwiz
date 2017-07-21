@@ -9,10 +9,13 @@ namespace Ui
 {
 class ClientMainWindowUi;
 }
-class QStackedWidget;
 
 namespace dwiz
 {
+class NetworkConnectorFactoryInterface;
+class NetworkConnectorInterface;
+class ProtocolFactoryInterface;
+
 class ClientMainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -21,6 +24,10 @@ public:
         QWidget* const f_parent = nullptr, Qt::WindowFlags const f_flags = Qt::WindowFlags());
     ~ClientMainWindow();
 
+    void init(
+        std::unique_ptr<NetworkConnectorFactoryInterface> f_networkConnectorFactory,
+        std::unique_ptr<ProtocolFactoryInterface> f_protocolFactory);
+
 signals:
     void closed();
 
@@ -28,7 +35,9 @@ private:
     virtual void closeEvent(QCloseEvent* f_event) override;
 
     std::unique_ptr<Ui::ClientMainWindowUi> m_ui;
-    std::unique_ptr<QStackedWidget> m_stackedWidget;
+    //    std::unique_ptr<NetworkConnectorFactoryInterface> m_networkConnectorFactory;
+    std::shared_ptr<NetworkConnectorInterface> m_networkConnector;
+    std::unique_ptr<ProtocolFactoryInterface> m_protocolFactory;
 
 }; // class ClientMainWindow
 } // namespace dwiz

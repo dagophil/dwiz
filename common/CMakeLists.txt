@@ -6,8 +6,12 @@ add_library(DwizCommon STATIC
     log/logging.h
     log/ostream_logger.cpp
     log/ostream_logger.h
+    network/network_connector_factory_interface.h
     network/network_connector_interface.h
-    protocols/json_login_protocol.cpp
-    protocols/json_login_protocol.h
     protocols/login_protocol_interface.h
+    protocols/protocol_factory_interface.h
+    protocols/v0/json_login_protocol_v0.cpp
+    protocols/v0/json_login_protocol_v0.h
+    protocols/v0/protocol_v0_factory.cpp
+    protocols/v0/protocol_v0_factory.h
 )
