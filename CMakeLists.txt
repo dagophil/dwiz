@@ -25,6 +25,9 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${DWIZ_OUTPUT_DIRECTORY}")
 # Add source directory to include paths.
 include_directories(${CMAKE_SOURCE_DIR})
 
+# Add thread libs.
+find_package(Threads REQUIRED)
+
 # Find qt.
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Gui REQUIRED)

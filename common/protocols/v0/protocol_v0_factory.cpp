@@ -3,9 +3,8 @@
 
 namespace dwiz
 {
-std::unique_ptr<dwiz::LoginProtocolInterface> dwiz::ProtocolV0Factory::createLoginProtocol(
-    std::shared_ptr<dwiz::NetworkConnectorInterface> const& f_networkConnector)
+std::unique_ptr<dwiz::LoginProtocolInterface> dwiz::ProtocolV0Factory::createLoginProtocol()
 {
-    return std::make_unique<JsonLoginProtocolV0>(f_networkConnector);
+    return std::make_unique<JsonLoginProtocolV0>();
 }
 } // namespace dwiz

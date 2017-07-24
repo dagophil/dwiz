@@ -4,6 +4,7 @@
 #include <common/network/network_connector_factory_interface.h>
 #include <common/protocols/login_protocol_interface.h>
 #include <common/protocols/protocol_factory_interface.h>
+#include <common_qt/error_handler/qt_error_handler_interface.h>
 #include <QCloseEvent>
 
 namespace dwiz
@@ -19,15 +20,20 @@ ClientMainWindow::ClientMainWindow(QWidget* const f_parent, Qt::WindowFlags cons
 ClientMainWindow::~ClientMainWindow() = default;
 
 void ClientMainWindow::init(
+    std::unique_ptr<QtErrorHandlerInterface> f_error_handler,
     std::unique_ptr<NetworkConnectorFactoryInterface> f_networkConnectorFactory,
     std::unique_ptr<ProtocolFactoryInterface> f_protocolFactory)
 {
+    DWIZASSERT(f_error_handler != nullptr);
     DWIZASSERT(f_networkConnectorFactory != nullptr);
     DWIZASSERT(f_protocolFactory != nullptr);
+    m_error_handler = std::move(f_error_handler);
     //    m_networkConnectorFactory = std::move(f_networkConnectorFactory);
     m_networkConnector = f_networkConnectorFactory->createNetworkConnector();
     m_protocolFactory = std::move(f_protocolFactory);
-    m_ui->loginPage->setLoginProtocol(m_protocolFactory->createLoginProtocol(m_networkConnector));
+    m_ui->loginPage->setErrorHandler(m_error_handler);
+    m_ui->loginPage->setNetworkConnector(m_networkConnector);
+    m_ui->loginPage->setLoginProtocol(m_protocolFactory->createLoginProtocol());
 }
 
 void ClientMainWindow::closeEvent(QCloseEvent* f_event)

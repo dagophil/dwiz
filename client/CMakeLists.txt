@@ -17,6 +17,7 @@ target_link_libraries(DwizClient
     Qt5::Core
     Qt5::Gui
     Qt5::Widgets
+    ${CMAKE_THREAD_LIBS_INIT}
 )
 add_executable(dwizclient client_main.cpp)
 set_target_properties(dwizclient

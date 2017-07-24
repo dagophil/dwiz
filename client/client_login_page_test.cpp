@@ -1,32 +1,60 @@
 #include <client/client_login_page.h>
-#include <common/protocols/login_protocol_interface.h>
+#include <common/future_utils.h>
+#include <common/network/network_connector_interface_mock.h>
+#include <common/protocols/login_protocol_interface_mock.h>
 #include <QApplication>
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
+#include <memory>
 
 using namespace dwiz;
+using testing::DefaultValue;
+using testing::InSequence;
+using testing::Ref;
+using testing::Return;
 
-class MockLoginProtocol : public LoginProtocolInterface
+class ClientLoginPageTest : public testing::Test
 {
 public:
-    virtual ~MockLoginProtocol() = default;
-    MOCK_METHOD3(
-        login,
-        std::future<LoginResult>(std::string const&, std::string const&, std::string const&));
-};
+    QApplication& app() const
+    {
+        return *m_app;
+    }
 
-TEST(ClientLoginPage, TestLoginCallsProtocol)
+private:
+    virtual void SetUp()
+    {
+        int argc = 0;
+        char** argv = nullptr;
+        m_app = std::make_unique<QApplication>(argc, argv);
+    }
+    virtual void TearDown()
+    {
+        m_app.reset();
+    }
+    std::unique_ptr<QApplication> m_app;
+}; // class ClientLoginPageTest
+
+TEST_F(ClientLoginPageTest, ConnectAndLoginCallsNetworkAndProtocol)
 {
-    int argc = 0;
-    char** argv = nullptr;
-    QApplication app(argc, argv);
-    DWIZ_UNUSED(app);
+    auto make_connect_result = []() { return make_ready_future<ConnectResult>(ConnectResult{}); };
+    DefaultValue<std::future<ConnectResult>>::SetFactory(make_connect_result);
+    auto make_login_result = []() { return make_ready_future<LoginResult>(LoginResult{}); };
+    DefaultValue<std::future<LoginResult>>::SetFactory(make_login_result);
+    auto network_connector = std::make_unique<NetworkConnectorInterfaceMock>();
+    auto login_protocol = std::make_unique<LoginProtocolInterfaceMock>();
+    {
+        InSequence dummy;
+        EXPECT_CALL(*network_connector, connect("localhost", 80));
+        EXPECT_CALL(*login_protocol, login(Ref(*network_connector), "myUsername", "myPassword"));
+    }
 
     ClientLoginPage login_page;
-
-    auto login_protocol = std::make_unique<MockLoginProtocol>();
-    EXPECT_CALL(*login_protocol, login("", "", "")).Times(1);
+    login_page.setNetworkConnector(std::move(network_connector));
     login_page.setLoginProtocol(std::move(login_protocol));
+    login_page.setHostName("localhost:80");
+    login_page.setUserName("myUsername");
+    login_page.setPassword("myPassword");
 
-    login_page.login();
+    login_page.connectAndLogin();
 }

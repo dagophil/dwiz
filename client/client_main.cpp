@@ -4,6 +4,7 @@
 #include <common/log/logging.h>
 #include <common/protocols/v0/protocol_v0_factory.h>
 #include <common_qt/catch_all_application.h>
+#include <common_qt/error_handler/qt_message_box_error_handler.h>
 #include <common_qt/network/qt_network_connector_factory.h>
 #include <exception>
 #include <memory>
@@ -20,7 +21,9 @@ int main(int argc, char* argv[])
         ClientMainWindow window;
         QObject::connect(&window, &ClientMainWindow::closed, &app, &QApplication::quit);
         window.init(
-            std::make_unique<QtNetworkConnectorFactory>(), std::make_unique<ProtocolV0Factory>());
+            std::make_unique<QtMessageBoxErrorHandler>(),
+            std::make_unique<QtNetworkConnectorFactory>(),
+            std::make_unique<ProtocolV0Factory>());
         window.show();
         int const app_result = app.exec();
         if (!app.hasException())

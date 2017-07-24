@@ -15,6 +15,7 @@ namespace dwiz
 class NetworkConnectorFactoryInterface;
 class NetworkConnectorInterface;
 class ProtocolFactoryInterface;
+class QtErrorHandlerInterface;
 
 class ClientMainWindow : public QMainWindow
 {
@@ -25,6 +26,7 @@ public:
     ~ClientMainWindow();
 
     void init(
+        std::unique_ptr<QtErrorHandlerInterface> f_error_handler,
         std::unique_ptr<NetworkConnectorFactoryInterface> f_networkConnectorFactory,
         std::unique_ptr<ProtocolFactoryInterface> f_protocolFactory);
 
@@ -35,6 +37,7 @@ private:
     virtual void closeEvent(QCloseEvent* f_event) override;
 
     std::unique_ptr<Ui::ClientMainWindowUi> m_ui;
+    std::shared_ptr<QtErrorHandlerInterface> m_error_handler;
     //    std::unique_ptr<NetworkConnectorFactoryInterface> m_networkConnectorFactory;
     std::shared_ptr<NetworkConnectorInterface> m_networkConnector;
     std::unique_ptr<ProtocolFactoryInterface> m_protocolFactory;

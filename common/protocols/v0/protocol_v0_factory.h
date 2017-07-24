@@ -9,8 +9,7 @@ namespace dwiz
 class ProtocolV0Factory : public ProtocolFactoryInterface
 {
 public:
-    virtual std::unique_ptr<LoginProtocolInterface> createLoginProtocol(
-        std::shared_ptr<NetworkConnectorInterface> const& f_networkConnector) override;
+    virtual std::unique_ptr<LoginProtocolInterface> createLoginProtocol() override;
 }; // class ProtocolV0Factory
 } // namespace dwiz
 

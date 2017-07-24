@@ -3,6 +3,7 @@
 
 #include <common/dwiz_std.h>
 #include <QWidget>
+#include <future>
 #include <memory>
 
 namespace Ui
@@ -12,7 +13,11 @@ class ClientLoginPageUi;
 
 namespace dwiz
 {
+class ConnectResult;
 class LoginProtocolInterface;
+class LoginResult;
+class NetworkConnectorInterface;
+class QtErrorHandlerInterface;
 
 class ClientLoginPage : public QWidget
 {
@@ -22,12 +27,24 @@ public:
 
     ~ClientLoginPage();
 
+    void setErrorHandler(std::shared_ptr<QtErrorHandlerInterface> const& f_error_handler);
+    void setNetworkConnector(std::shared_ptr<NetworkConnectorInterface> const& f_network_connector);
     void setLoginProtocol(std::unique_ptr<LoginProtocolInterface> f_login_protocol);
 
-    void login();
+    void setHostName(std::string const& f_host_name);
+    void setUserName(std::string const& f_user_name);
+    void setPassword(std::string const& f_password);
+
+    void connectAndLogin();
 
 private:
+    void onConnectResult(std::future<ConnectResult> f_future);
+    void onLoginResult(std::future<LoginResult> f_future);
+
     std::unique_ptr<Ui::ClientLoginPageUi> m_ui;
+
+    std::shared_ptr<QtErrorHandlerInterface> m_error_handler;
+    std::shared_ptr<NetworkConnectorInterface> m_network_connector;
     std::unique_ptr<LoginProtocolInterface> m_login_protocol;
 
 }; // class ClientLoginPage

@@ -7,14 +7,12 @@
 namespace dwiz
 {
 class LoginProtocolInterface;
-class NetworkConnectorInterface;
 
 class ProtocolFactoryInterface
 {
 public:
     virtual ~ProtocolFactoryInterface() = default;
-    virtual std::unique_ptr<LoginProtocolInterface>
-    createLoginProtocol(std::shared_ptr<NetworkConnectorInterface> const& f_networkConnector) = 0;
+    virtual std::unique_ptr<LoginProtocolInterface> createLoginProtocol() = 0;
 
 }; // class ProtocolFactoryInterface
 } // namespace dwiz

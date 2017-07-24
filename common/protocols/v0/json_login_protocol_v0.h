@@ -12,16 +12,10 @@ class NetworkConnectorInterface;
 class JsonLoginProtocolV0 : public LoginProtocolInterface
 {
 public:
-    JsonLoginProtocolV0(std::shared_ptr<NetworkConnectorInterface> const& f_networkConnector);
-    ~JsonLoginProtocolV0();
-
     virtual std::future<LoginResult> login(
-        std::string const& f_host_name,
+        NetworkConnectorInterface& f_networkConnector,
         std::string const& f_user_name,
         std::string const& f_password) override;
-
-private:
-    std::shared_ptr<NetworkConnectorInterface> m_networkConnector;
 
 }; // class JsonLoginProtocol
 } // namespace dwiz
