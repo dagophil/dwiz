@@ -31,6 +31,7 @@ find_package(Threads REQUIRED)
 # Find qt.
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Gui REQUIRED)
+find_package(Qt5Test REQUIRED)
 find_package(Qt5Widgets REQUIRED)
 
 # Function that copies qt library files to the output directory of the target.
@@ -88,11 +89,13 @@ if (TEST_SOURCES)
     )
     target_link_libraries(test_main
         DwizClient
+        Qt5::Test
         GTest::Main
         ${GMock_LIBRARY}
     )
     copy_qt_lib(test_main Qt5::Core)
     copy_qt_lib(test_main Qt5::Gui)
+    copy_qt_lib(test_main Qt5::Test)
     copy_qt_lib(test_main Qt5::Widgets)
     GTEST_ADD_TESTS(test_main "" AUTO)
 endif()

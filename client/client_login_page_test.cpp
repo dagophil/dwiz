@@ -3,6 +3,8 @@
 #include <common/network/network_connector_interface_mock.h>
 #include <common/protocols/login_protocol_interface_mock.h>
 #include <QApplication>
+#include <QLineEdit>
+#include <QTest>
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 #include <memory>
@@ -51,9 +53,8 @@ TEST_F(ClientLoginPageTest, ConnectAndLoginCallsNetworkAndProtocol)
     ClientLoginPage login_page;
     login_page.setNetworkConnector(std::move(network_connector));
     login_page.setLoginProtocol(std::move(login_protocol));
-    login_page.setHostName("localhost:80");
-    login_page.setUserName("myUsername");
-    login_page.setPassword("myPassword");
-
+    QTest::keyClicks(&login_page.getHostNameInputField(), "localhost:80");
+    QTest::keyClicks(&login_page.getUserNameInputField(), "myUsername");
+    QTest::keyClicks(&login_page.getPasswordInputField(), "myPassword");
     login_page.connectAndLogin();
 }

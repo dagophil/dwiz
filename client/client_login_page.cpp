@@ -42,19 +42,34 @@ void ClientLoginPage::setLoginProtocol(std::unique_ptr<LoginProtocolInterface> f
     m_login_protocol = std::move(f_login_protocol);
 }
 
-void ClientLoginPage::setHostName(const std::string& f_host_name)
+QLineEdit& ClientLoginPage::getHostNameInputField()
 {
-    m_ui->inputHost->setText(QString::fromStdString(f_host_name));
+    return *m_ui->inputHost;
 }
 
-void ClientLoginPage::setUserName(const std::string& f_user_name)
+QLineEdit const& ClientLoginPage::getHostNameInputField() const
 {
-    m_ui->inputUsername->setText(QString::fromStdString(f_user_name));
+    return *m_ui->inputHost;
 }
 
-void ClientLoginPage::setPassword(const std::string& f_password)
+QLineEdit& ClientLoginPage::getUserNameInputField()
 {
-    m_ui->inputPassword->setText(QString::fromStdString(f_password));
+    return *m_ui->inputUsername;
+}
+
+QLineEdit const& ClientLoginPage::getUserNameInputField() const
+{
+    return *m_ui->inputUsername;
+}
+
+QLineEdit& ClientLoginPage::getPasswordInputField()
+{
+    return *m_ui->inputPassword;
+}
+
+QLineEdit const& ClientLoginPage::getPasswordInputField() const
+{
+    return *m_ui->inputPassword;
 }
 
 void ClientLoginPage::connectAndLogin()

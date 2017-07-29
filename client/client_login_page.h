@@ -6,6 +6,7 @@
 #include <future>
 #include <memory>
 
+class QLineEdit;
 namespace Ui
 {
 class ClientLoginPageUi;
@@ -31,9 +32,14 @@ public:
     void setNetworkConnector(std::shared_ptr<NetworkConnectorInterface> const& f_network_connector);
     void setLoginProtocol(std::unique_ptr<LoginProtocolInterface> f_login_protocol);
 
-    void setHostName(std::string const& f_host_name);
-    void setUserName(std::string const& f_user_name);
-    void setPassword(std::string const& f_password);
+    QLineEdit& getHostNameInputField();
+    QLineEdit const& getHostNameInputField() const;
+
+    QLineEdit& getUserNameInputField();
+    QLineEdit const& getUserNameInputField() const;
+
+    QLineEdit& getPasswordInputField();
+    QLineEdit const& getPasswordInputField() const;
 
     void connectAndLogin();
 
