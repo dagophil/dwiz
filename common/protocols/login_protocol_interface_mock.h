@@ -14,7 +14,7 @@ public:
         login,
         std::future<LoginResult>(
             NetworkConnectorInterface&, std::string const&, std::string const&));
-};
+}; // class LoginProtocolInterfaceMock
 } // namespace dwiz
 
 #endif

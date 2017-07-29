@@ -7,6 +7,7 @@
 #include <memory>
 
 class QLineEdit;
+class QPushButton;
 namespace Ui
 {
 class ClientLoginPageUi;
@@ -22,6 +23,7 @@ class QtErrorHandlerInterface;
 
 class ClientLoginPage : public QWidget
 {
+    Q_OBJECT
 public:
     ClientLoginPage(
         QWidget* const f_parent = nullptr, Qt::WindowFlags const f_flags = Qt::WindowFlags());
@@ -41,9 +43,14 @@ public:
     QLineEdit& getPasswordInputField();
     QLineEdit const& getPasswordInputField() const;
 
-    void connectAndLogin();
+    QPushButton& getLoginButton();
+    QPushButton const& getLoginButton() const;
+
+signals:
+    void signalLoginSuccess(LoginResult const&);
 
 private:
+    void onLoginButtonClicked();
     void onConnectResult(std::future<ConnectResult> f_future);
     void onLoginResult(std::future<LoginResult> f_future);
 

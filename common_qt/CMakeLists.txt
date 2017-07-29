@@ -14,3 +14,7 @@ target_link_libraries(DwizCommonQt
     DwizCommon
     Qt5::Widgets
 )
+
+add_test_files(
+    error_handler/qt_error_handler_interface_mock.h
+)

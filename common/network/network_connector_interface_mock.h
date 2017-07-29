@@ -11,7 +11,7 @@ class NetworkConnectorInterfaceMock : public NetworkConnectorInterface
 {
 public:
     MOCK_METHOD2(connect, std::future<ConnectResult>(std::string const&, unsigned int const));
-};
+}; // class NetworkConnectorInterfaceMock
 } // namespace dwiz
 
 #endif

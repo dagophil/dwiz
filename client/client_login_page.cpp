@@ -20,7 +20,7 @@ ClientLoginPage::ClientLoginPage(QWidget* const f_parent, Qt::WindowFlags const 
 {
     m_ui->setupUi(this);
     QObject::connect(
-        m_ui->btnLogin, &QPushButton::clicked, this, &ClientLoginPage::connectAndLogin);
+        m_ui->btnLogin, &QPushButton::clicked, this, &ClientLoginPage::onLoginButtonClicked);
 }
 
 ClientLoginPage::~ClientLoginPage() = default;
@@ -72,7 +72,17 @@ QLineEdit const& ClientLoginPage::getPasswordInputField() const
     return *m_ui->inputPassword;
 }
 
-void ClientLoginPage::connectAndLogin()
+QPushButton& ClientLoginPage::getLoginButton()
+{
+    return *m_ui->btnLogin;
+}
+
+QPushButton const& ClientLoginPage::getLoginButton() const
+{
+    return *m_ui->btnLogin;
+}
+
+void ClientLoginPage::onLoginButtonClicked()
 {
     DWIZASSERT(m_network_connector != nullptr);
     DWIZASSERT(m_login_protocol != nullptr);
@@ -164,5 +174,6 @@ void ClientLoginPage::onLoginResult(std::future<LoginResult> f_future)
     auto const login_result = f_future.get();
     logwarn << "ClientLoginPage::onLoginResult(): TODO: Do something with the login result."
             << endlog;
+    emit signalLoginSuccess(login_result);
 }
 } // namespace dwiz
