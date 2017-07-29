@@ -24,9 +24,9 @@ void ClientMainWindow::init(
     std::unique_ptr<NetworkConnectorFactoryInterface> f_networkConnectorFactory,
     std::unique_ptr<ProtocolFactoryInterface> f_protocolFactory)
 {
-    DWIZASSERT(f_error_handler != nullptr);
-    DWIZASSERT(f_networkConnectorFactory != nullptr);
-    DWIZASSERT(f_protocolFactory != nullptr);
+    DWIZ_ASSERT(f_error_handler != nullptr);
+    DWIZ_ASSERT(f_networkConnectorFactory != nullptr);
+    DWIZ_ASSERT(f_protocolFactory != nullptr);
     m_error_handler = std::move(f_error_handler);
     //    m_networkConnectorFactory = std::move(f_networkConnectorFactory);
     m_networkConnector = f_networkConnectorFactory->createNetworkConnector();

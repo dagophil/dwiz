@@ -1,5 +1,5 @@
-#ifndef DWIZ_COMMON_ASSERT_H
-#define DWIZ_COMMON_ASSERT_H
+#ifndef DWIZ_COMMON_DWIZ_ASSERT_H
+#define DWIZ_COMMON_DWIZ_ASSERT_H
 
 #include <common/dwiz_std.h>
 #include <string>
@@ -24,9 +24,9 @@ void assert(
     char const* const f_func);
 
 #ifdef DWIZ_DEBUG
-#define DWIZASSERT(f_expr) assert(f_expr, #f_expr, __FILE__, __LINE__, __func__)
+#define DWIZ_ASSERT(f_expr) assert(f_expr, #f_expr, __FILE__, __LINE__, __func__)
 #else
-#define DWIZASSERT(expr)
+#define DWIZ_ASSERT(expr)
 #endif
 } // namespace dwiz
 

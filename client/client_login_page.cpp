@@ -84,8 +84,8 @@ QPushButton const& ClientLoginPage::getLoginButton() const
 
 void ClientLoginPage::onLoginButtonClicked()
 {
-    DWIZASSERT(m_network_connector != nullptr);
-    DWIZASSERT(m_login_protocol != nullptr);
+    DWIZ_ASSERT(m_network_connector != nullptr);
+    DWIZ_ASSERT(m_login_protocol != nullptr);
     auto const hostAndPort = m_ui->inputHost->text().toStdString();
     std::string host;
     unsigned int port = 0;
@@ -121,13 +121,13 @@ void ClientLoginPage::onLoginButtonClicked()
         }
         return;
     }
-    DWIZASSERT(connectResult.valid());
+    DWIZ_ASSERT(connectResult.valid());
     invokeWhenFinished(std::move(connectResult), this, &ClientLoginPage::onConnectResult);
 }
 
 void ClientLoginPage::onConnectResult(std::future<ConnectResult> f_future)
 {
-    DWIZASSERT(isReady(f_future));
+    DWIZ_ASSERT(isReady(f_future));
     auto const connect_result = f_future.get();
     logwarn << "ClientLoginPage::onConnectResult(): TODO: Do something with the connect result."
             << endlog;
@@ -147,13 +147,13 @@ void ClientLoginPage::onConnectResult(std::future<ConnectResult> f_future)
         }
         return;
     }
-    DWIZASSERT(loginResult.valid());
+    DWIZ_ASSERT(loginResult.valid());
     invokeWhenFinished(std::move(loginResult), this, &ClientLoginPage::onLoginResult);
 }
 
 void ClientLoginPage::onLoginResult(std::future<LoginResult> f_future)
 {
-    DWIZASSERT(isReady(f_future));
+    DWIZ_ASSERT(isReady(f_future));
     auto const login_result = f_future.get();
     logwarn << "ClientLoginPage::onLoginResult(): TODO: Do something with the login result."
             << endlog;
