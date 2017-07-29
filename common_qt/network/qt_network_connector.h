@@ -8,7 +8,6 @@ namespace dwiz
 {
 class QtNetworkConnector : public NetworkConnectorInterface
 {
-    // NetworkConnectorInterface interface
 public:
     virtual std::future<ConnectResult>
     connect(std::string const& f_host_name, unsigned int const f_port) override;

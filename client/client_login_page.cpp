@@ -111,7 +111,7 @@ void ClientLoginPage::onLoginButtonClicked()
     {
         connectResult = m_network_connector->connect(host, port);
     }
-    catch (std::runtime_error const& ex)
+    catch (NetworkConnectorError const& ex)
     {
         LOGDEBUG("Network connector could not connect: " << ex.what() << endlog);
         if (m_error_handler)
@@ -121,16 +121,7 @@ void ClientLoginPage::onLoginButtonClicked()
         }
         return;
     }
-    if (!connectResult.valid())
-    {
-        logwarn << "Network connector returned invalid future." << endlog;
-        if (m_error_handler)
-        {
-            m_error_handler->showErrorMessage(
-                this, "Connection error", "Could not connect to \"" + host + "\".");
-        }
-        return;
-    }
+    DWIZASSERT(connectResult.valid());
     invokeWhenFinished(std::move(connectResult), this, &ClientLoginPage::onConnectResult);
 }
 
@@ -147,7 +138,7 @@ void ClientLoginPage::onConnectResult(std::future<ConnectResult> f_future)
     {
         loginResult = m_login_protocol->login(*m_network_connector, user_name, password);
     }
-    catch (std::runtime_error const& ex)
+    catch (LoginProtocolError const& ex)
     {
         LOGDEBUG("Login protocol could not login: " << ex.what() << endlog);
         if (m_error_handler)
@@ -156,15 +147,7 @@ void ClientLoginPage::onConnectResult(std::future<ConnectResult> f_future)
         }
         return;
     }
-    if (!loginResult.valid())
-    {
-        logwarn << "Login protocol returned invalid future." << endlog;
-        if (m_error_handler)
-        {
-            m_error_handler->showErrorMessage(this, "Login error", "Could not login.");
-        }
-        return;
-    }
+    DWIZASSERT(loginResult.valid());
     invokeWhenFinished(std::move(loginResult), this, &ClientLoginPage::onLoginResult);
 }
 

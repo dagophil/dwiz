@@ -20,17 +20,19 @@ public:
     virtual ~LoginProtocolInterface() = default;
 
     /// Establishes a connection on the network connector and exchanges login data.
+    /// The returned future is always valid, but it may not be ready.
+    /// Throws a LoginProtocolError if the request fails.
     virtual std::future<LoginResult> login(
         NetworkConnectorInterface& f_networkConnector,
         std::string const& f_user_name,
         std::string const& f_password) = 0;
 }; // class LoginProtocolInterface
 
-class LoginError : public std::runtime_error
+class LoginProtocolError : public std::runtime_error
 {
 public:
     using std::runtime_error::runtime_error;
-}; // class LoginError
+}; // class LoginProtocolError
 
 } // namespace dwiz
 
