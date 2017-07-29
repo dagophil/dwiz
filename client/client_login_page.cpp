@@ -1,6 +1,7 @@
 #include "client_login_page.h"
 #include "ui_client_login_page.h"
 #include <common/dwiz_assert.h>
+#include <common/future_utils.h>
 #include <common/log/logging.h>
 #include <common/network/network_connector_interface.h>
 #include <common/protocols/login_protocol_interface.h>
@@ -110,8 +111,7 @@ void ClientLoginPage::connectAndLogin()
 
 void ClientLoginPage::onConnectResult(std::future<ConnectResult> f_future)
 {
-    auto const future_status = f_future.wait_for(std::chrono::seconds(0));
-    DWIZASSERT(future_status == std::future_status::ready);
+    DWIZASSERT(isReady(f_future));
     auto const connect_result = f_future.get();
     logwarn << "ClientLoginPage::onConnectResult(): TODO: Do something with the connect result."
             << endlog;
@@ -140,14 +140,12 @@ void ClientLoginPage::onConnectResult(std::future<ConnectResult> f_future)
         }
         return;
     }
-    logwarn << "Successfully called login." << endlog;
     invokeWhenFinished(std::move(loginResult), this, &ClientLoginPage::onLoginResult);
 }
 
 void ClientLoginPage::onLoginResult(std::future<LoginResult> f_future)
 {
-    auto const future_status = f_future.wait_for(std::chrono::seconds(0));
-    DWIZASSERT(future_status == std::future_status::ready);
+    DWIZASSERT(isReady(f_future));
     auto const login_result = f_future.get();
     logwarn << "ClientLoginPage::onLoginResult(): TODO: Do something with the login result."
             << endlog;

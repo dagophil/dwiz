@@ -8,6 +8,7 @@
 #include <memory>
 
 using namespace dwiz;
+using testing::ByMove;
 using testing::DefaultValue;
 using testing::InSequence;
 using testing::Ref;
@@ -37,16 +38,14 @@ private:
 
 TEST_F(ClientLoginPageTest, ConnectAndLoginCallsNetworkAndProtocol)
 {
-    auto make_connect_result = []() { return make_ready_future<ConnectResult>(ConnectResult{}); };
-    DefaultValue<std::future<ConnectResult>>::SetFactory(make_connect_result);
-    auto make_login_result = []() { return make_ready_future<LoginResult>(LoginResult{}); };
-    DefaultValue<std::future<LoginResult>>::SetFactory(make_login_result);
     auto network_connector = std::make_unique<NetworkConnectorInterfaceMock>();
     auto login_protocol = std::make_unique<LoginProtocolInterfaceMock>();
     {
         InSequence dummy;
-        EXPECT_CALL(*network_connector, connect("localhost", 80));
-        EXPECT_CALL(*login_protocol, login(Ref(*network_connector), "myUsername", "myPassword"));
+        EXPECT_CALL(*network_connector, connect("localhost", 80))
+            .WillOnce(Return(ByMove(makeReadyFuture(ConnectResult{}))));
+        EXPECT_CALL(*login_protocol, login(Ref(*network_connector), "myUsername", "myPassword"))
+            .WillOnce(Return(ByMove(makeReadyFuture(LoginResult{}))));
     }
 
     ClientLoginPage login_page;

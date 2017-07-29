@@ -20,6 +20,7 @@ add_library(DwizCommon STATIC
 )
 
 add_test_files(
+    future_utils_test.cpp
     network/network_connector_interface_mock.h
     protocols/login_protocol_interface_mock.h
     string_utils_test.cpp

@@ -1,5 +1,4 @@
 #include <common/string_utils.h>
-#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 #include <stdexcept>
 

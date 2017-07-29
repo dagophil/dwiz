@@ -2,11 +2,9 @@
 #define COMMON_QT_QT_FUTURE_UTILS_H
 
 #include <common/dwiz_std.h>
-#include <common/log/logging.h>
+#include <common/future_utils.h>
 #include <QThread>
-#include <functional>
 #include <future>
-#include <type_traits>
 
 namespace dwiz
 {
@@ -32,9 +30,7 @@ public:
 template <typename T, typename SLOT>
 void invokeWhenFinished(std::future<T> f_future, QObject* const f_context, SLOT f_slot)
 {
-    using namespace std::chrono_literals;
-    auto const status = f_future.wait_for(0s);
-    if (status == std::future_status::ready)
+    if (isReady(f_future))
     {
         f_slot(std::move(f_future));
     }
