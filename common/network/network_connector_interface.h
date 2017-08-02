@@ -7,9 +7,15 @@
 
 namespace dwiz
 {
+class NetworkMessage;
+
 class ConnectResult
 {
 };
+
+typedef struct AwaitReplyT
+{
+} AwaitReply;
 
 class NetworkConnectorInterface
 {
@@ -21,6 +27,14 @@ public:
     /// Throws a NetworkConnectorError if the request fails.
     virtual std::future<ConnectResult>
     connect(std::string const& f_host_name, unsigned int const f_port) = 0;
+
+    /// Sends the message.
+    /// Throws an exception if called before getting a valid ConnectResult from connect().
+    virtual void send(std::string const& f_message) = 0;
+
+    /// Sends the message and returns a future on which can be waited for the response.
+    /// Throws an exception if called before getting a valid ConnectResult from connect().
+    virtual std::future<NetworkMessage> send(std::string const& f_message, AwaitReplyT) = 0;
 };
 
 class NetworkConnectorError : public std::runtime_error

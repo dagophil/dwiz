@@ -25,6 +25,7 @@ void assert(
 
 #ifdef DWIZ_DEBUG
 #define DWIZ_ASSERT(f_expr) assert(f_expr, #f_expr, __FILE__, __LINE__, __func__)
+#define DWIZ_ABORT DWIZ_ASSERT(false)
 #else
 #define DWIZ_ASSERT(expr)
 #endif
