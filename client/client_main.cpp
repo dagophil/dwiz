@@ -1,7 +1,7 @@
 #include <common/dwiz_std.h>
 #include <client/client_main_window.h>
 #include <common/dwiz_assert.h>
-#include <common/log/logging.h>
+#include <common/log/logger.h>
 #include <common/protocols/v0/protocol_v0_factory.h>
 #include <common_qt/catch_all_application.h>
 #include <common_qt/error_handler/qt_message_box_error_handler.h>
@@ -9,11 +9,15 @@
 #include <exception>
 #include <memory>
 
+DWIZ_DEFINE_LOGGER("client.main");
+
 int main(int argc, char* argv[])
 {
     using namespace dwiz;
 
-    loginfo << "Application start." << endlog;
+    DWIZ_INIT_LOG(".log-config");
+    DWIZ_LOG_INFO("Application start.");
+
     int return_code = 1;
     try
     {
@@ -32,21 +36,22 @@ int main(int argc, char* argv[])
         }
         else
         {
-            logerr << app.getExceptionMessage() << endlog;
+            DWIZ_LOG_ERROR(app.getExceptionMessage());
         }
     }
     catch (std::exception const& ex)
     {
-        logerr << "Uncaught exception: " << ex.what() << "." << endlog;
+        DWIZ_LOG_ERROR("Uncaught exception: " << ex.what() << ".");
     }
     catch (AssertError const& ex)
     {
-        logerr << "Assertion error: " << ex.what() << "." << endlog;
+        DWIZ_LOG_ERROR("Assertion error: " << ex.what() << ".");
     }
     catch (...)
     {
-        logerr << "Unknown exception." << endlog;
+        DWIZ_LOG_ERROR("Unknown exception.");
     }
-    loginfo << "Application end, status code " << return_code << "." << endlog;
+
+    DWIZ_LOG_INFO("Application end, status code " << return_code << ".");
     return return_code;
 }

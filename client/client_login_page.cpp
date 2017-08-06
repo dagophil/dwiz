@@ -2,12 +2,14 @@
 #include "ui_client_login_page.h"
 #include <common/dwiz_assert.h>
 #include <common/future_utils.h>
-#include <common/log/logging.h>
+#include <common/log/logger.h>
 #include <common/network/network_connector_interface.h>
 #include <common/protocols/login_protocol_interface.h>
 #include <common/string_utils.h>
 #include <common_qt/error_handler/qt_error_handler_interface.h>
 #include <common_qt/qt_future_utils.h>
+
+DWIZ_DEFINE_LOGGER("client.client_login_page");
 
 namespace dwiz
 {
@@ -95,7 +97,7 @@ void ClientLoginPage::onLoginButtonClicked()
     }
     catch (std::runtime_error const& ex)
     {
-        LOGDEBUG("Failed to split host and port: " << ex.what() << endlog);
+        DWIZ_LOG_DEBUG("Failed to split host and port: " << ex.what());
         if (m_error_handler)
         {
             m_error_handler->showErrorMessage(
@@ -113,7 +115,7 @@ void ClientLoginPage::onLoginButtonClicked()
     }
     catch (NetworkConnectorError const& ex)
     {
-        LOGDEBUG("Network connector could not connect: " << ex.what() << endlog);
+        DWIZ_LOG_DEBUG("Network connector could not connect: " << ex.what());
         if (m_error_handler)
         {
             m_error_handler->showErrorMessage(
@@ -129,8 +131,8 @@ void ClientLoginPage::onConnectResult(std::future<ConnectResult> f_future)
 {
     DWIZ_ASSERT(isReady(f_future));
     auto const connect_result = f_future.get();
-    logwarn << "ClientLoginPage::onConnectResult(): TODO: Do something with the connect result."
-            << endlog;
+    DWIZ_LOG_WARN(
+        "ClientLoginPage::onConnectResult(): TODO: Do something with the connect result.");
     auto const user_name = m_ui->inputUsername->text().toStdString();
     auto const password = m_ui->inputPassword->text().toStdString();
     std::future<LoginResult> loginResult;
@@ -140,7 +142,7 @@ void ClientLoginPage::onConnectResult(std::future<ConnectResult> f_future)
     }
     catch (LoginProtocolError const& ex)
     {
-        LOGDEBUG("Login protocol could not login: " << ex.what() << endlog);
+        DWIZ_LOG_DEBUG("Login protocol could not login: " << ex.what());
         if (m_error_handler)
         {
             m_error_handler->showErrorMessage(this, "Login error", "Could not login.");
@@ -155,8 +157,7 @@ void ClientLoginPage::onLoginResult(std::future<LoginResult> f_future)
 {
     DWIZ_ASSERT(isReady(f_future));
     auto const login_result = f_future.get();
-    logwarn << "ClientLoginPage::onLoginResult(): TODO: Do something with the login result."
-            << endlog;
+    DWIZ_LOG_WARN("ClientLoginPage::onLoginResult(): TODO: Do something with the login result.");
     emit signalLoginSuccess(login_result);
 }
 } // namespace dwiz

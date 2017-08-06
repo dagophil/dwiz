@@ -14,20 +14,19 @@ add_library(DwizClient STATIC
 target_link_libraries(DwizClient
     DwizCommon
     DwizCommonQt
+    ${LOG4CXX_LIBRARY}
     Qt5::Core
     Qt5::Gui
     Qt5::Widgets
     ${CMAKE_THREAD_LIBS_INIT}
 )
-add_executable(dwizclient client_main.cpp)
-set_target_properties(dwizclient
-    PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY "${DWIZ_OUTPUT_DIRECTORY}/client"
-)
+dwiz_add_executable(dwizclient client_main.cpp)
 target_link_libraries(dwizclient DwizClient)
 copy_qt_lib(dwizclient Qt5::Core)
 copy_qt_lib(dwizclient Qt5::Gui)
 copy_qt_lib(dwizclient Qt5::Widgets)
+
+copy_file(".log-config")
 
 add_test_files(
     client_login_page_test.cpp

@@ -3,10 +3,7 @@ add_library(DwizCommon STATIC
     dwiz_assert.h
     dwiz_std.h
     future_utils.h
-    log/logging.cpp
-    log/logging.h
-    log/ostream_logger.cpp
-    log/ostream_logger.h
+    log/logger.h
     network/mapped_network_message_notifier.cpp
     network/mapped_network_message_notifier.h
     network/network_connector_factory_interface.h

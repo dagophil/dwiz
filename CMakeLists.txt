@@ -13,8 +13,8 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_PREFIX_PATH "" CACHE PATH "CMake prefix path")
 
 # Make the debug variable visible in cmake gui.
-set(DWIZ_DEBUG OFF CACHE BOOL "Insert debug code.")
-if(DWIZ_DEBUG)
+set(DWIZ_INSERT_DEBUG_CODE OFF CACHE BOOL "Insert debug code.")
+if(DWIZ_INSERT_DEBUG_CODE)
     add_definitions(-DDWIZ_DEBUG)
 endif()
 
@@ -25,8 +25,36 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${DWIZ_OUTPUT_DIRECTORY}")
 # Add source directory to include paths.
 include_directories(${CMAKE_SOURCE_DIR})
 
+# Function that adds an executable and sets the output directory.
+# Example: dwiz_add_executable(main main.cpp)
+macro(dwiz_add_executable tar)
+    add_executable(${tar} ${ARGN})
+    set(DWIZ_CURRENT_OUTPUT_DIRECTORY "${DWIZ_OUTPUT_DIRECTORY}/${tar}")
+    set_target_properties(${tar}
+        PROPERTIES
+        RUNTIME_OUTPUT_DIRECTORY "${DWIZ_CURRENT_OUTPUT_DIRECTORY}"
+    )
+endmacro()
+
+# Function that copies a file from the current source directory to the current output directory.
+# Example: copy_file("file.txt")
+function(copy_file filename)
+    configure_file("${CMAKE_CURRENT_SOURCE_DIR}/${filename}" "${DWIZ_CURRENT_OUTPUT_DIRECTORY}/${filename}" COPYONLY)
+endfunction()
+
 # Add thread libs.
 find_package(Threads REQUIRED)
+
+# Find log4cxx.
+find_path(LOG4CXX_INCLUDE_DIR log4cxx/log4cxx.h PATH_SUFFIXES log4cxx)
+if (NOT LOG4CXX_INCLUDE_DIR)
+    message(FATAL_ERROR "Could not find log4cxx include dir.")
+endif()
+include_directories(${LOG4CXX_INCLUDE_DIR})
+find_library(LOG4CXX_LIBRARY NAMES log4cxx liblog4cxx PATHS "lib")
+if (NOT LOG4CXX_LIBRARY)
+    message(FATAL_ERROR "Could not find log4cxx library.")
+endif()
 
 # Find qt.
 find_package(Qt5Core REQUIRED)
@@ -82,11 +110,7 @@ add_subdirectory(server)
 # Add test executable.
 if (TEST_SOURCES)
     enable_testing(true)
-    add_executable(test_main ${TEST_SOURCES})
-    set_target_properties(test_main
-        PROPERTIES
-        RUNTIME_OUTPUT_DIRECTORY "${DWIZ_OUTPUT_DIRECTORY}/test"
-    )
+    dwiz_add_executable(test_main ${TEST_SOURCES})
     target_link_libraries(test_main
         DwizClient
         Qt5::Test

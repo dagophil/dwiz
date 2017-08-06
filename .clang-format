@@ -53,6 +53,8 @@ IncludeCategories:
     Priority:        1
   - Regex:           '^<(client|common|common_qt|server)/'
     Priority:        2
+  - Regex:           '^<log4cxx/'
+    Priority:        3
   - Regex:           '.*'
     Priority:        4
 IndentCaseLabels: false
