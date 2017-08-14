@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.5)
 
 project(dwiz)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED)
 
 set(CMAKE_AUTOMOC ON)
@@ -39,7 +39,12 @@ endmacro()
 # Function that copies a file from the current source directory to the current output directory.
 # Example: copy_file("file.txt")
 function(copy_file filename)
-    configure_file("${CMAKE_CURRENT_SOURCE_DIR}/${filename}" "${DWIZ_CURRENT_OUTPUT_DIRECTORY}/${filename}" COPYONLY)
+    if(ARGV1)
+        set(filename_out ${ARGV1})
+    else()
+        set(filename_out ${filename})
+    endif()
+    configure_file("${CMAKE_CURRENT_SOURCE_DIR}/${filename}" "${DWIZ_CURRENT_OUTPUT_DIRECTORY}/${filename_out}" COPYONLY)
 endfunction()
 
 # Add thread libs.
@@ -110,16 +115,19 @@ add_subdirectory(server)
 # Add test executable.
 if (TEST_SOURCES)
     enable_testing(true)
-    dwiz_add_executable(test_main ${TEST_SOURCES})
+    dwiz_add_executable(test_main
+        test/test_main.cpp
+        ${TEST_SOURCES})
     target_link_libraries(test_main
         DwizClient
         Qt5::Test
-        GTest::Main
+        GTest::GTest
         ${GMock_LIBRARY}
     )
     copy_qt_lib(test_main Qt5::Core)
     copy_qt_lib(test_main Qt5::Gui)
     copy_qt_lib(test_main Qt5::Test)
     copy_qt_lib(test_main Qt5::Widgets)
+    copy_file("test/.log-config" ".log-config")
     GTEST_ADD_TESTS(test_main "" AUTO)
 endif()

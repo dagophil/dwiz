@@ -55,8 +55,10 @@ IncludeCategories:
     Priority:        2
   - Regex:           '^<log4cxx/'
     Priority:        3
-  - Regex:           '.*'
+  - Regex:           '^<(gmock|gtest)/'
     Priority:        4
+  - Regex:           '.*'
+    Priority:        5
 IndentCaseLabels: false
 IndentWidth:     4
 IndentWrappedFunctionNames: false

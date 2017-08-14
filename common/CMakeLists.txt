@@ -16,6 +16,8 @@ add_library(DwizCommon STATIC
     protocols/v0/json_login_protocol_v0.h
     protocols/v0/protocol_v0_factory.cpp
     protocols/v0/protocol_v0_factory.h
+    signals/connection.h
+    signals/signal.h
     string_utils.cpp
     string_utils.h
 )
@@ -25,5 +27,7 @@ add_test_files(
     network/network_connector_interface_mock.h
     network/network_message_notifier_interface_mock.h
     protocols/login_protocol_interface_mock.h
+    signals/connection_test.cpp
+    signals/signal_test.cpp
     string_utils_test.cpp
 )
